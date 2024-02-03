@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Javascript tokenizer</title>
+  <meta name="description" content="Javascript tokenizer and a simple syntax highlighter" />
+  <meta name="author" content="Fatih Erikli" />
+  <style>
+    body {
+      margin: 0;
+    }
+    #code {
+      margin: 0;
+    }
+    .reserved {
+      color: rgb(155, 52, 52);
+    }
+    .number, .reserved-identifier {
+      color: rgb(34, 34, 166);
+    }
+    .string {
+      color: rgb(6, 124, 89);
+    }
+    .string:before {
+      content: attr(quote);
+    }
+    .string:after {
+      content: attr(quote);
+    }
+    .comment {
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <pre id="code"></pre>
+  <script type="module">
+    import tokenize from "./tokenize.js";
+    fetch('tokenize.js').then(response => response.text()).then((code) => {
+      const result = tokenize(code);
+      const codeElement = document.getElementById("code");
+      for (let i = 0; i < result.tokens.length; i++) {
+        const token = result.tokens[i];
+        const next = result.tokens[i + 1];
+        const element = document.createElement("span");
+        if (token.type === "string") {
+          element.setAttribute("quote", token.quote);
+        }
+        element.innerText = token.value;
+        element.classList.add(token.type);
+        codeElement.appendChild(element);
+        const text = document.createTextNode(code.slice(token.ends, next ? next.starts: code.length));
+        codeElement.appendChild(text);
+      }
+    });
+  </script>
+</body>
+</html>
