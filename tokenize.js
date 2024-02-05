@@ -10,7 +10,6 @@ const reserved = [
   "return",
   "for",
   "break",
-  "continue",
   "let",
   "const"
 ];
@@ -19,7 +18,6 @@ const space = "\u0020";
 const quotes = ["\u0027", "\u0022"];
 const whitespace = [space, breakline, "\t"];
 const char_code_zero = "0".charCodeAt(0);
-const char_code_one = "0".charCodeAt(0);
 const char_code_nine = "9".charCodeAt(0);
 const float_delimiter = ".";
 const hex_delimiter = "x";
