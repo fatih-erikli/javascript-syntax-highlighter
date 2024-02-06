@@ -22,16 +22,7 @@ const char_code_nine = "9".charCodeAt(0);
 const float_delimiter = ".";
 const hex_delimiter = "x";
 const hex_digits = ["a", "b", "c", "d", "e", "f"];
-const operators = ["=", "<", ">", "+", "-", "=", "/", "*", "?"];
-const operators_compound = {
-  "+": ["+", "="],
-  "-": ["-", "="],
-  "*": ["*"],
-  "<": ["="],
-  ">": ["="],
-  "=": ["=", ">"],
-  // "==": ["="]
-};
+const operators = ["=", "<", ">", "+", "-", "=", "/", "*", "?", "++", "--", "+=", "-=", "<=", ">=", "=="];
 const named_tokens = {
   ",": "comma",
   ".": "dot",
@@ -152,11 +143,7 @@ export default function tokenize(text) {
               }
             } else {
               if (current_token.type === "operator") {
-                if (operators_compound.hasOwnProperty(current_token.value)) {
-                  if (operators_compound[current_token.value].includes(token)) {
-                  } else {
-                    current_token = undefined;
-                  }
+                if (operators.includes(token_next_value)) {
                 } else {
                   current_token = undefined;
                 }
