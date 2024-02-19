@@ -60,8 +60,8 @@ export default function tokenize(text) {
     }
     const token_with_previous = prev + token;
     if (skip_until) {
-      if (skip_until.length === 1) {
-        if (skip_until === token) {
+      if (skip_until.length == 1) {
+        if (skip_until == token) {
           skip_until = undefined;
           tokens.push(current_token);
           current_token = undefined;
@@ -71,7 +71,7 @@ export default function tokenize(text) {
         }
       } else {
         current_token.value += token;
-        if (skip_until === token_with_previous) {
+        if (skip_until == token_with_previous) {
           current_token.ends = i+1;
           tokens.push(current_token);
           skip_until = undefined;
@@ -96,8 +96,8 @@ export default function tokenize(text) {
     const is_operator = operators.includes(token);
     const is_quote = quotes.includes(token);
     const is_digit = char_code >= char_code_zero && char_code <= char_code_nine;
-    const is_hex_delimiter = lower_case === hex_delimiter;
-    if (current_quote === token) {
+    const is_hex_delimiter = lower_case == hex_delimiter;
+    if (current_quote == token) {
       current_quote = undefined;
       current_token.ends = i + 1;
       current_token = undefined;
@@ -122,15 +122,15 @@ export default function tokenize(text) {
             const token_next_value = current_token.value + token;
             if (is_operator || is_named_token) {
             } else {
-              if (current_token.type === "reserved") {
+              if (current_token.type == "reserved") {
                 current_token.type = "identifier";
               } else {
-                if (current_token.type === "reserved-identifier") {
+                if (current_token.type == "reserved-identifier") {
                   current_token.type = "identifier";
                 }
               }
             }
-            if (current_token.type === "identifier") {
+            if (current_token.type == "identifier") {
               if (reserved.includes(token_next_value)) {
                 current_token.type = "reserved";
               } else {
@@ -142,23 +142,23 @@ export default function tokenize(text) {
                 current_token = undefined;
               }
             } else {
-              if (current_token.type === "operator") {
+              if (current_token.type == "operator") {
                 if (operators.includes(token_next_value)) {
                 } else {
                   current_token = undefined;
                 }
               } else {
-                if (current_token.type === "reserved") {
+                if (current_token.type == "reserved") {
                   if (is_operator || is_named_token) {
                     current_token = undefined;
                   }
                 } else {
-                  if (current_token.type === "reserved-identifier") {
+                  if (current_token.type == "reserved-identifier") {
                     if (is_operator || is_named_token) {
                       current_token = undefined;
                     }
                   } else {
-                    if (current_token.type === "number") {
+                    if (current_token.type == "number") {
                       if (is_operator || is_named_token) {
                         current_token = undefined;
                       }
@@ -172,12 +172,12 @@ export default function tokenize(text) {
             const token_next_value = current_token.value + token;
             if (skip_until_next_token) {
             } else {
-              if (current_token.type === "number") {
+              if (current_token.type == "number") {
                 if (is_digit) {
                   current_token.value = token_next_value;
                   current_token.ends = i + 1;
                 } else {
-                  if (current_token.value === "0" && is_hex_delimiter) {
+                  if (current_token.value == "0" && is_hex_delimiter) {
                     if (current_token.value.includes(hex_delimiter)) {
                       errors.push({ token: current_token, error: "Invalid hex number" });
                       skip_until_next_token = true;
@@ -187,7 +187,7 @@ export default function tokenize(text) {
                       current_token.ends = i + 1;
                     }
                   } else {
-                    if (token === float_delimiter) {
+                    if (token == float_delimiter) {
                       if (current_token.value.includes(float_delimiter)) {
                         errors.push({ token: current_token, error: "Invalid float number" });
                         skip_until_next_token = true;
